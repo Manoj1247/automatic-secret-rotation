@@ -64,4 +64,15 @@ resource "aws_lambda_permission" "allow_secrets_manager" {
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.this.function_name
   principal     = "secretsmanager.amazonaws.com"
+  source_arn    = var.secret_arn
 }
+
+
+resource "aws_lambda_permission" "allow_cloudwatch_to_invoke" {
+  statement_id  = "AllowCloudWatchInvoke"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.this.function_name
+  principal     = "events.amazonaws.com"
+  source_arn    = var.event_rule_arn
+}
+
